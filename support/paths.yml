@@ -1,15 +1,13 @@
-shared_folder:
+onedrive_folder: 
   LRinaldi: '/Users/lorenzorinaldi/Library/CloudStorage/OneDrive-SharedLibraries-PolitecnicodiMilano/Gabriele Casella - Lorenzo_ROSSI/model'
-  GC: ''
   LRossi: ''
+  GCasella: ''
 
 database:
-  exiobase_raw: 'Exiobase Hybrid 3.3.18 with VA/raw/flows'
-  exiobase_aggregated: 'Exiobase Hybrid 3.3.18 with VA/aggregated'
-  ember: 'ember/yearly_full_release_long_format.csv'
+  exiobase:
+    raw: 'database/Exiobase Hybrid 3.3.18 with VA'
+    aggregated: 'database/aggregated'
+    extended: 'database/extended_chenery'
+  ember: 'database/ember/yearly_full_release_long_format.csv'
 
-aggregations:
-  raw_to_aggregated: 'aggregations/raw_to_aggregated.xlsx'
-
-inventories:
-  master_file_path: 'inventories/master.xlsx'
+inventories: inventories/master_simplified.xlsx
