@@ -39,8 +39,8 @@ ghgs = {
     'N2O (air - Emiss)':273
     }
 
-# isolate GHGs for LFP batteries in f matrix (specific footprints)
-f = db.f.loc[ghgs.keys(),(slice(None),'Commodity','LFP batteries')]
+# isolate GHGs for new commodities (batteries) in f matrix (specific footprints)
+f = db.f.loc[ghgs.keys(),(slice(None),'Commodity',db.new_commodities)]
 for ghg,gwp in ghgs.items():
     f.loc[ghg,:] *= gwp # multiply each GHG by its GWP
 
@@ -53,7 +53,21 @@ f = f.drop('Item',axis=1)
 f.set_index(['Region','Commodity'],inplace=True)
 f = f.unstack()
 f = f.droplevel(0,axis=1)
-f.to_clipboard() # this copies the dataframe to clipboard. You can ctrl+v in excel
+f = f*1000/80 # convert to kg CO2-eq/kWh
+f.to_excel('footprints.xlsx')
+
+#%%
+# isolate prices for new commodities (batteries) in f matrix (specific footprints)
+p = db.p.loc[(slice(None),'Commodity',db.new_commodities),:]
+p = p.unstack(-1)
+p = p.droplevel(1,axis=0)
+p = p.droplevel(0,axis=1)
+
+p = p*1e6/80 # convert to €/kWh
+p = p/0.92 # convert from EUR to USD in 2011
+p = p*1.33 # deflat from 2011 to 2024
+
+p.to_excel('prices.xlsx')
 
 # %% Export aggregated database to txt
 db.to_txt(
